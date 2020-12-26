@@ -1,7 +1,7 @@
 import itertools
 import math
 
-with open('input.txt', 'r') as input_file:
+with open('../input.txt', 'r') as input_file:
     input_numbers = [int(line.strip()) for line in input_file.readlines()]
 
 
