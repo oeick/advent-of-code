@@ -1,10 +1,10 @@
 use itertools::Itertools;
 
-fn main() {
+fn main(){
     let input_file_content = std::fs::read_to_string(r"..\input.txt").unwrap();
     let numbers: Vec<u32> = input_file_content
         .lines()
-        .map(|l| l.parse::<u32>().unwrap())
+        .map(|line| line.parse::<u32>().unwrap())
         .collect();
 
     let solution1 = solve(&numbers, 2);
