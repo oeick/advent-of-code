@@ -1,6 +1,6 @@
 import re
 
-with open('input.txt', 'r') as input_file:
+with open('../input.txt', 'r') as input_file:
     lines = [line.strip() for line in input_file.readlines()]
 
 pattern = re.compile(r'(\d+)-(\d+) (\w+): (.+)')

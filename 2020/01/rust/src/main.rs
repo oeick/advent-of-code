@@ -3,17 +3,17 @@ use std::io::{BufRead, BufReader};
 use itertools::Itertools;
 
 fn main() {
-    let input_file = File::open("..\\input.txt").unwrap();
+    let input_file = File::open(r"..\input.txt").unwrap();
     let numbers: Vec<u32> = BufReader::new(input_file)
         .lines()
         .map(|l| l.unwrap().parse::<u32>().unwrap())
         .collect();
 
     let solution1 = solve(&numbers, 2);
-    println!("{:?}", solution1);
+    println!("{}", solution1);
 
     let solution2 = solve(&numbers, 3);
-    println!("{:?}", solution2);
+    println!("{}", solution2);
 }
 
 fn solve(numbers: &Vec<u32>, num_of_entries: usize) -> u32{
