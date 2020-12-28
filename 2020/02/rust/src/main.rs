@@ -1,18 +1,12 @@
-use std::fs::File;
-use std::io::{BufRead, BufReader};
 use regex::Regex;
 
 fn main() {
-    let input_file = File::open(r"..\input.txt").unwrap();
-    let lines: Vec<String> = BufReader::new(input_file)
-        .lines()
-        .map(|l| l.unwrap())
-        .collect();
+    let input_file_content = std::fs::read_to_string(r"..\input.txt").unwrap();
 
     let pattern = Regex::new(r"(\d+)-(\d+) (\w+): (.+)").unwrap();
 
     let (mut counter1, mut counter2) = (0, 0);
-    for line in lines{
+    for line in input_file_content.lines(){
         let matches = pattern.captures(&line).unwrap();
         let low: usize = matches[1].parse().unwrap();
         let high: usize = matches[2].parse().unwrap();
@@ -22,8 +16,8 @@ fn main() {
         if (low..=high).contains(&character_count) {
             counter1 += 1;
         };
-        if (code.chars().nth(low - 1).unwrap() == character) != 
-           (code.chars().nth(high - 1).unwrap() == character) {
+        if (code.chars().nth(low - 1) == Some(character)) != 
+           (code.chars().nth(high - 1) == Some(character)) {
             counter2 += 1;
         }
     }
