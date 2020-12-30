@@ -9,27 +9,81 @@ PRINT "read"; n%; "lines from "; filename$
 DIM SHARED lines%(n%)
 ReadLines(filename$)
 
+PRINT TIME$; " sorting"
+
+QuickSort
+
 PRINT TIME$; " starting calculation"
 
 SolvePart2(2020)
 
-PRINT TIME$; " finished calculation"
-PRINT "solution: "; solution&
+PRINT TIME$; " solution:"; solution&
 
 
 ' -------- sub routines --------
 
 SUB SolvePart2 (target%) STATIC
+  solution& = 0
   FOR a% = 1 TO n%-2
     FOR b% = a%+1 TO n%-1
-      FOR c% = b%+1 TO n%
-        IF lines%(a%) + lines%(b%) + lines%(c%) = target% THEN
-          solution& = CDBL(lines%(a%)) * CDBL(lines%(b%)) * CDBL(lines%(c%))
-          EXIT SUB
-        END IF
-      NEXT c%
+      CALL SubSolver(a%, b%, target%)
+      IF solution& > 0 THEN
+        EXIT SUB
+      END IF
     NEXT b%
   NEXT a%  
+END SUB
+
+SUB SubSolver(a%, b%, target%) STATIC
+  FOR c% = b%+1 TO n%
+    s% = lines%(a%) + lines%(b%) + lines%(c%)
+    IF s% = target% THEN
+      solution& = CDBL(lines%(a%)) * CDBL(lines%(b%)) * CDBL(lines%(c%))
+      EXIT SUB
+    ELSEIF s% > target% THEN
+      EXIT SUB
+    END IF
+  NEXT  
+END SUB
+
+SUB QuickSort STATIC
+  left% = 1
+  right% = n%
+  DIM stack%(n%)
+  stack%(1) = left%
+  stack%(2) = right%
+  is% = 2
+  WHILE is% > 0
+    right% = stack%(is%)
+    is% = is% - 1
+    left% = stack%(is%)
+    is% = is% - 1
+    
+    ip% = left% - 1
+    FOR j% = left% TO right%-1
+      IF lines%(j%) <= lines%(right%) THEN
+        ip% = ip% + 1
+        SWAP lines%(ip%), lines%(j%)
+      END IF
+    NEXT
+    SWAP lines%(ip%+1), lines%(right%)
+    pivot% = ip% + 1
+    
+    IF pivot% - 1 > left% THEN
+      is% = is% + 1
+      stack%(is%) = left%
+      is% = is% + 1
+      stack%(is%) = pivot% - 1
+    END IF
+    
+    IF pivot% + 1 < right% THEN
+      is% = is% + 1
+      stack%(is%) = pivot% + 1
+      is% = is% + 1
+      stack%(is%) = right%
+    END IF
+    
+  WEND 
 END SUB
 
 SUB CountFileLines (filename$) STATIC
