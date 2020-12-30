@@ -1,0 +1,58 @@
+filename$ = "Shared:input.txt"
+DIM SHARED returnint%
+
+PRINT TIME$; " validation begins"
+
+OPEN filename$ FOR INPUT AS #1
+
+counter1% = 0
+counter2% = 0
+
+WHILE EOF(1) = 0
+  INPUT#1, row$
+
+  posMinus% = INSTR(row$, "-")
+  pos1stSpc% = INSTR(row$, " ")
+  pos2ndSpc% = INSTR(pos1stSpc% + 1, row$, " ")
+  
+  CALL StringToInt(LEFT$(row$, posMinus%-1))
+  low% = returnint%
+
+  CALL StringToInt(MID$(row$, posMinus% + 1, pos1stSpc% - posMinus% - 1))
+  high% = returnint%
+  
+  char$ = MID$(row$, pos1stSpc% + 1, 1)
+  
+  code$ = MID$(row$, pos2ndSpc% + 1)
+  
+  CALL CountChars(code$, char$)
+  nChar% = returnint%
+  
+  IF nChar% >= low% AND nChar% <= high% THEN counter1% = counter1% + 1
+  
+  IF (MID$(code$, low%, 1) = char$) XOR (MID$(code$, high%, 1) = char$) THEN counter2% = counter2% + 1
+  
+WEND
+CLOSE #1
+
+PRINT TIME$; " validation complete"
+PRINT "solution part 1:"; counter1%
+PRINT "solution part 2:"; counter2%
+
+' -------- sub routines --------
+
+SUB StringToInt(s$) STATIC
+  v% = 0
+  FOR i% = 0 TO LEN(s$) - 1
+    v% = v% + 10^i% * (ASC(MID$(s$, LEN(s$) - i%, 1)) - 48)
+  NEXT
+  returnint% = v%
+END SUB
+
+SUB CountChars(s$, c$) STATIC
+  n% = 0
+  FOR i% = 1 TO LEN(s$)
+    IF MID$(s$, i%, 1) = c$ THEN n% = n% + 1
+  NEXT
+  returnint% = n%
+END SUB 

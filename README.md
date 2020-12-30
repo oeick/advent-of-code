@@ -21,7 +21,9 @@ To program with AmigaBASIC on a Windows 10 PC, I use the Amiga Forever emulator 
 Using the save option from the AmigaBASIC file menu produces a file in some binary format, not readable for any Windows tools, as far as I know.
 To get the basic listing as an ascii file for my git repository, I use the `save` command with the `A` parameter, to save the basic listing in ascii format in the shared folder.
 
-To help remembering the language I found a pdf of the [AmigaBASIC manual](https://archive.org/details/Amiga_BASIC_1985_Commodore).
+Information about AmigaBASIC commands:
+ - https://archive.org/details/Amiga_BASIC_1985_Commodore
+ - http://www.pjhutchison.org/emulation/uae_amigabasic.html
 
 
 ### Advent Of Code 2020 Day 01 with AmigaBASIC
@@ -39,3 +41,13 @@ After some hours of re-writing code I boosted the AmigaBASIC program to solve pa
 The trick is to sort the input and put a conditional break in the inner loop of the brute force code. With sorted input, it took just a few seconds to solve part 2. Unfortunately there is no sorting function in AmigaBASIC, so I had to write it myself. First I tried [insertion sort](https://en.wikipedia.org/wiki/Insertion_sort), because it is easy to implement. It sorted the 200 input numbers in 46s. Then I tried [quicksort](https://en.wikipedia.org/wiki/Quicksort) and finally it sorted the same list in 7s. I experienced a lot of difficulties to implement und debug quicksort in AmigaBASIC and I was happy when it finally worked correctly.
 
 And yes, it's the iterative version of quicksort, because sub routines in AmigaBASIC don't allow recursion.
+
+
+### Advent Of Code 2020 Day 02 with AmigaBASIC
+
+Duration for validating (both parts simultanous) took around 2 minutes.
+
+Difficulties:
+ - there is not regex parser in AmigaBASIC
+ - there is no function to parse a string into an integer
+ - there is no function to count specific characters in a string
