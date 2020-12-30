@@ -23,13 +23,16 @@ PRINT TIME$; " solution:"; solution&
 ' -------- sub routines --------
 
 SUB SolvePart2 (target%) STATIC
+  ' required shared variables:
+  '   lines%    -> input array
+  '   solution& -> return value
+  
+  n% = UBOUND(lines%)
   solution& = 0
   FOR a% = 1 TO n%-2
     FOR b% = a%+1 TO n%-1
       CALL SubSolver(a%, b%, target%)
-      IF solution& > 0 THEN
-        EXIT SUB
-      END IF
+      IF solution& > 0 THEN EXIT SUB
     NEXT b%
   NEXT a%  
 END SUB
@@ -47,6 +50,10 @@ SUB SubSolver(a%, b%, target%) STATIC
 END SUB
 
 SUB QuickSort STATIC
+  ' required shared variable:
+  '  lines% -> input array (gets inplace sorted)
+
+  n% = UBOUND(lines%)
   left% = 1
   right% = n%
   DIM stack%(n%)
@@ -58,7 +65,7 @@ SUB QuickSort STATIC
     is% = is% - 1
     left% = stack%(is%)
     is% = is% - 1
-    
+
     ip% = left% - 1
     FOR j% = left% TO right%-1
       IF lines%(j%) <= lines%(right%) THEN
@@ -68,25 +75,28 @@ SUB QuickSort STATIC
     NEXT
     SWAP lines%(ip%+1), lines%(right%)
     pivot% = ip% + 1
-    
+
     IF pivot% - 1 > left% THEN
       is% = is% + 1
       stack%(is%) = left%
       is% = is% + 1
       stack%(is%) = pivot% - 1
     END IF
-    
+
     IF pivot% + 1 < right% THEN
       is% = is% + 1
       stack%(is%) = pivot% + 1
       is% = is% + 1
       stack%(is%) = right%
     END IF
-    
+
   WEND 
 END SUB
 
 SUB CountFileLines (filename$) STATIC
+  ' required shared variable:
+  '  n% -> returns number of lines in file
+
   OPEN filename$ FOR INPUT AS #1
   n% = 0
   WHILE EOF(1) = 0
@@ -97,6 +107,10 @@ SUB CountFileLines (filename$) STATIC
 END SUB
 
 SUB ReadLines (filename$) STATIC
+  ' required shared variables:
+  '  n%     -> number of lines to be read
+  '  lines% -> returns lines
+
   OPEN filename$ FOR INPUT AS #1
   FOR i% = 1 TO n%
     INPUT#1, lines%(i%)
