@@ -8,18 +8,19 @@ fn main() -> Result<(), Box<dyn Error>>{
     println!("{}", floor);
     
     let mut floor = 0;
-    let mut i = 0;
+    let mut basement_index = 0;
     let mut step = input.chars().enumerate();
     while floor >= 0 {
         match step.next() {
             Some((_, '(')) => floor += 1,
-            Some((j @ _, ')')) => {
+            Some((i @ _, ')')) => {
                 floor -= 1;
-                i = j;}
+                basement_index = i;
+            }
             Some(_) => (),
             None => break
         };
     };
-    println!("{}", i + 1);
+    println!("{}", basement_index + 1);
     Ok(())
 }
