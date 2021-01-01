@@ -1,0 +1,25 @@
+filename$ = "Shared:input.txt"
+
+PRINT TIME$; " start"
+
+OPEN filename$ FOR INPUT AS #1
+
+floor% = 0
+i% = 1
+basement% = -1
+
+WHILE EOF(1) = 0
+  c$ = INPUT$(1, #1)
+  IF c$ = "(" THEN
+    floor% = floor% + 1
+  ELSE
+    floor% = floor% - 1
+  END IF
+  IF floor% = -1 AND basement% = -1 THEN basement% = i%
+  i% = i% + 1
+WEND
+CLOSE #1
+
+PRINT TIME$; " finish"
+PRINT floor%
+PRINT basement%
