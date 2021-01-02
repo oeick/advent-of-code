@@ -1,0 +1,54 @@
+DIM SHARED n%     ' number of input lines
+DIM SHARED count% ' return value of tree counter
+
+filename$ = "Shared:input.txt"
+
+PRINT TIME$; " reading file "; filename$
+
+CountFileLines(filename$)
+
+DIM SHARED lines$(n%)
+ReadLines(filename$)
+
+PRINT TIME$; " counting trees"
+
+CountTrees
+
+PRINT TIME$; count%
+
+
+' -------- sub routines --------
+
+SUB CountTrees STATIC:
+  w% = LEN(lines$(1))
+  count% = 0
+  FOR i = 1 TO n%
+    char$ = MID$(lines$(i), (i - 1) * 3 MOD w% + 1, 1)
+    IF char$ = "#" THEN count% = count% + 1
+  NEXT
+END SUB
+
+SUB CountFileLines (filename$) STATIC
+  ' required shared variable:
+  '  n% -> returns number of lines in file
+
+  OPEN filename$ FOR INPUT AS #1
+  n% = 0
+  WHILE EOF(1) = 0
+    INPUT#1, content$
+    n% = n% + 1
+  WEND
+  CLOSE #1
+END SUB
+
+SUB ReadLines (filename$) STATIC
+  ' required shared variables:
+  '  n%     -> number of lines to be read
+  '  lines% -> returns lines
+
+  OPEN filename$ FOR INPUT AS #1
+  FOR i% = 1 TO n%
+    INPUT#1, lines$(i%)
+  NEXT
+  CLOSE #1
+END SUB  
