@@ -1,26 +1,18 @@
+import math
+
+
 with open('../input.txt', 'r') as input_file:
-    lines = [line.strip() for line in input_file.readlines()]
+    input_lines = [line.strip() for line in input_file.readlines()]
 
-prod = 1
-for slope in [1, 3, 5, 7]:
-    trees = 0
-    col = 0
-    for row in lines:
-        if row[col] == '#':
-            trees += 1
-        col += slope
-        col = col % len(row)
-    prod *= trees
-    if slope == 3:
-        print(trees)
 
-trees = 0
-col = 0
-for i_row in range(0, len(lines), 2):
-    if lines[i_row][col] == '#':
-        trees += 1
-    col += 1
-    col = col % len(lines[0])
+def count_trees(lines, right, down):
+    return len([line for i, line in enumerate(lines[::down])
+                if line[i * right % len(line)] == '#'])
 
-prod *= trees
-print(prod)
+
+def solve(lines, slopes):
+    return math.prod(count_trees(lines, r, d) for r, d in slopes)
+
+
+print(solve(input_lines, [(3, 1)]))
+print(solve(input_lines, [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]))
