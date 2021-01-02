@@ -1,3 +1,5 @@
+OPTION BASE 0
+
 DIM SHARED n%     ' number of input lines
 DIM SHARED count% ' return value of tree counter
 
@@ -12,18 +14,30 @@ ReadLines(filename$)
 
 PRINT TIME$; " counting trees"
 
-CountTrees
+CALL CountTrees(3, 1)
 
-PRINT TIME$; count%
+solution1% = count%
+
+product# = 1#
+FOR i% = 1 TO 5
+  READ right%, down%
+  CALL CountTrees(right%, down%)
+  product# = product# * CDBL(count%)
+NEXT
+PRINT TIME$; " done"
+PRINT solution1%
+PRINT USING "################"; product# 
 
 
 ' -------- sub routines --------
 
-SUB CountTrees STATIC:
-  w% = LEN(lines$(1))
+SUB CountTrees(right%, down%) STATIC:
+  w% = LEN(lines$(0))
   count% = 0
-  FOR i = 1 TO n%
-    char$ = MID$(lines$(i), (i - 1) * 3 MOD w% + 1, 1)
+  j% = 0
+  FOR i% = 0 TO n% - 1 STEP down%
+    char$ = MID$(lines$(i%), j% * right% MOD w% + 1, 1)
+    j% = j% + 1
     IF char$ = "#" THEN count% = count% + 1
   NEXT
 END SUB
@@ -47,8 +61,17 @@ SUB ReadLines (filename$) STATIC
   '  lines% -> returns lines
 
   OPEN filename$ FOR INPUT AS #1
-  FOR i% = 1 TO n%
+  FOR i% = 0 TO n% - 1
     INPUT#1, lines$(i%)
   NEXT
   CLOSE #1
-END SUB  
+END SUB
+
+
+' ---- slopes for part 2 ----
+
+DATA 1, 1
+DATA 3, 1
+DATA 5, 1
+DATA 7, 1
+DATA 1, 2
