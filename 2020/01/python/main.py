@@ -1,11 +1,8 @@
 import itertools
 import math
 
-with open('../input.txt', 'r') as input_file:
-    input_numbers = [int(line.strip()) for line in input_file.readlines()]
 
-
-def solve(numbers, num_of_entries):
+def solve(numbers: list[int], num_of_entries: int) -> int:
     combis = itertools.combinations(numbers, num_of_entries)
     values = next(combis)
     while sum(values) != 2020:
@@ -13,5 +10,14 @@ def solve(numbers, num_of_entries):
     return math.prod(values)
 
 
-print(solve(input_numbers, 2))
-print(solve(input_numbers, 3))
+def main(filename: str) -> (str, str):
+    with open(filename, 'r') as input_file:
+        input_numbers = [int(line.strip()) for line in input_file.readlines()]
+    return (str(solve(input_numbers, 2)),
+            str(solve(input_numbers, 3)))
+
+
+if __name__ == '__main__':
+    solutions = main('../input.txt')
+    print(solutions[0])
+    print(solutions[1])

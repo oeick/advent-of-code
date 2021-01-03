@@ -7,6 +7,15 @@ Programming languages:
 - AmigaBASIC: my first programming language (see below)
 
 
+## Python
+
+I've started to play with unittests, refactoring some code to be more testable and using the puzzle examples.
+
+Run tests from main folder for a specific day:
+
+    python -m unittest discover -s ./tests
+
+
 ## AmigaBASIC
 
 ### Why?!
