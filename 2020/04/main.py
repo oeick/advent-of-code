@@ -1,8 +1,5 @@
 import re
 
-with open('input.txt', 'r') as fp:
-    batch_lines = [line.strip() for line in fp.readlines()] + ['', '']
-
 
 def parse_passport(lines):
     separated_fields = [s.split(':') for line in lines for s in line.split()]
@@ -44,18 +41,29 @@ def validation(pp, enhanced=False):
     return True
 
 
-counter1, counter2 = 0, 0
-passport_lines = []
-for line in batch_lines:
-    if line:
-        passport_lines.append(line)
-    else:
-        passport = parse_passport(passport_lines)
-        if validation(passport):
-            counter1 += 1
-        if validation(passport, enhanced=True):
-            counter2 += 1
-        passport_lines = []
+def solve(batch_lines):
+    counter1, counter2 = 0, 0
+    passport_lines = []
+    for line in batch_lines + ['']:
+        if line:
+            passport_lines.append(line)
+        else:
+            passport = parse_passport(passport_lines)
+            if validation(passport):
+                counter1 += 1
+            if validation(passport, enhanced=True):
+                counter2 += 1
+            passport_lines = []
+    return counter1, counter2
 
-print(counter1)
-print(counter2)
+
+def main(filename):
+    with open(filename, 'r') as input_file:
+        batch_lines = [line.strip() for line in input_file.readlines()]
+    return solve(batch_lines)
+
+
+if __name__ == '__main__':
+    solution1, solution2 = main('input.txt')
+    print(solution1)
+    print(solution2)
