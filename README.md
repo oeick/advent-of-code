@@ -2,7 +2,8 @@
 
 Programming languages:
 
-- Python: my language at work
+- Python: my first language at work
+- Java: my second language at work
 - Rust: I would like to learn this language out of private interest
 - AmigaBASIC: my first programming language (see below)
 

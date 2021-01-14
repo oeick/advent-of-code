@@ -12,11 +12,11 @@ fn solve_part1(input: &String) -> usize{
 }
 
 fn solve_part2(input: &String) -> usize{
-    let locations_santa = get_locations(&input, 0, 2);
-    let locations_robot = get_locations(&input, 1, 2);
-    locations_santa.union(&locations_robot)
-        .collect::<Vec<&(i32, i32)>>()
-        .len()
+    let santa = get_locations(&input, 0, 2);
+    let robot = get_locations(&input, 1, 2);
+    santa.union(&robot)
+         .collect::<Vec<&(i32, i32)>>()
+         .len()
 }
 
 fn get_locations(input: &String, skip: usize, step: usize) -> HashSet<(i32, i32)>{
