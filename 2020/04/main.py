@@ -58,8 +58,8 @@ def solve(batch_lines):
 
 
 def main(filename):
-    with open(filename, 'r') as input_file:
-        batch_lines = [line.strip() for line in input_file.readlines()]
+    with open(filename, 'r') as fp:
+        batch_lines = fp.read().splitlines()
     return solve(batch_lines)
 
 
