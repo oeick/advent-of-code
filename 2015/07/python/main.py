@@ -1,10 +1,14 @@
 import re
-from collections import namedtuple
+from typing import NamedTuple
 
 PATTERN = re.compile(r"([a-z0-9]*)\s?([A-Z]*)\s?([a-z0-9]*) -> (.*)")
 
-Instruction = namedtuple('Instruction',
-                         ['param1', 'operation', 'param2', 'target'])
+
+class Instruction(NamedTuple):
+    param1: str
+    operation: str
+    param2: str
+    target: str
 
 
 def solve(instructions: list[Instruction]) -> dict[str, int]:
