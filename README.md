@@ -1,32 +1,34 @@
 # Solutions to Advent of Code puzzles
 
+To practice writing readable, maintainable and testable code, I use the 
+exercises from [Advent of Code](https://adventofcode.com/).
+
 Programming languages:
 
 - Python: my first language at work
+  - [PEP 8 -- Style Guide for Python Code](https://www.python.org/dev/peps/pep-0008/)
+  - [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)
 - Java: my second language at work
 - Rust: I would like to learn this language out of private interest
 - AmigaBASIC: my first programming language (see below)
-
-
-## Python
-
-I've started to play with unittests, refactoring some code to be more testable and using the puzzle examples.
-
-Run tests from main folder for a specific day:
-
-    python -m unittest discover -s ./tests
 
 
 ## AmigaBASIC
 
 ### Why?!
 
-The [Amiga 500](https://en.wikipedia.org/wiki/Amiga_500) was my first computer and [AmigaBASIC](https://en.wikipedia.org/wiki/AmigaBASIC) my first programming language.
-I remembered this, while solving programming puzzles and I thought it could be an interesting and nostalgic challenge to try solving those puzzles with AmigaBASIC.
+The [Amiga 500](https://en.wikipedia.org/wiki/Amiga_500) was my first computer
+and [AmigaBASIC](https://en.wikipedia.org/wiki/AmigaBASIC) my first programming
+language.
+I remembered this, while solving programming puzzles and I thought it could be 
+an interesting and nostalgic challenge to try solving those puzzles with 
+AmigaBASIC.
 
 ### How?
 
-To program with AmigaBASIC on a Windows 10 PC, I use the Amiga Forever emulator collection (Value Edition 8), which comes prepared with a ready-to-use Workbench 1.3 setup on an emulated Amiga 2000. The setup also includes a shared directory to transfer files between Windows and Workbench (device `Shared:`). So in my basic code I will often load data from a filepath like `Shared:input.txt`. Just save the puzzle input to a file in the shared folder. Surprisingly there has not been any problem reading that file with AmigaBASIC.
+To program with AmigaBASIC on a Windows 10 PC, I use the Amiga Forever emulator 
+collection (Value Edition 8), which comes prepared with a ready-to-use 
+Workbench 1.3 setup on an emulated Amiga 2000. The setup also includes a shared directory to transfer files between Windows and Workbench (device `Shared:`). So in my basic code I will often load data from a filepath like `Shared:input.txt`. Just save the puzzle input to a file in the shared folder. Surprisingly there has not been any problem reading that file with AmigaBASIC.
 
 Using the save option from the AmigaBASIC file menu produces a file in some binary format, not readable for any Windows tools, as far as I know.
 To get the basic listing as an ascii file for my git repository, I use the `save` command with the `A` parameter, to save the basic listing in ascii format in the shared folder.
