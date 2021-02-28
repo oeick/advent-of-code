@@ -39,7 +39,7 @@ class ExampleTests(unittest.TestCase):
                 'durability': 3,
                 'flavor': -2,
                 'texture': -1}})
-        self.assertEqual((62842880, 0), result)
+        self.assertEqual((62842880, 57600000), result)
 
     def test_calc_distr(self):
         result = main.calc_distributions(5, 3)
@@ -51,3 +51,21 @@ class ExampleTests(unittest.TestCase):
             [2, 2, 1],
             [3, 1, 1]],
             result)
+
+    def test_calories(self):
+        result = main.calc_calories(
+            teaspoons=[40, 60],
+            ingredients={
+                'Butterscotch': {
+                    'calories': 8,
+                    'capacity': -1,
+                    'durability': -2,
+                    'flavor': 6,
+                    'texture': 3},
+                'Cinnamon': {
+                    'calories': 3,
+                    'capacity': 2,
+                    'durability': 3,
+                    'flavor': -2,
+                    'texture': -1}})
+        self.assertEqual(500, result)

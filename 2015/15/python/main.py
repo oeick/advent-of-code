@@ -33,15 +33,23 @@ def calc_score(
                 for n, i in enumerate(ingredients)])
 
 
+def calc_calories(teaspoons: list[int], ingredients: dict[str, dict]) -> int:
+    return sum([teaspoons[n] * ingredients[i]['calories']
+                for n, i in enumerate(ingredients)])
+
+
 def solve(ingredients: dict[str, dict]) -> (int, int):
-    scores = []
+    scores_part_1 = []
+    scores_part_2 = []
     for teaspoons in calc_distributions(100, len(ingredients)):
         prop_scores = {p: calc_score(teaspoons, ingredients, p)
                        for p in PROPERTIES[:-1]}
         total_score = prod([max(0, ps) for ps in prop_scores.values()])
         if total_score > 0:
-            scores.append(total_score)
-    return max(scores), 0
+            scores_part_1.append(total_score)
+        if calc_calories(teaspoons, ingredients) == 500:
+            scores_part_2.append(total_score)
+    return max(scores_part_1), max(scores_part_2)
 
 
 def main(filename: str) -> (int, int):
