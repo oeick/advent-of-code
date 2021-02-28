@@ -1,4 +1,5 @@
 import unittest
+
 import main
 
 
@@ -39,3 +40,14 @@ class ExampleTests(unittest.TestCase):
                 'flavor': -2,
                 'texture': -1}})
         self.assertEqual((62842880, 0), result)
+
+    def test_calc_distr(self):
+        result = main.calc_distributions(5, 3)
+        self.assertEqual([
+            [1, 1, 3],
+            [1, 2, 2],
+            [1, 3, 1],
+            [2, 1, 2],
+            [2, 2, 1],
+            [3, 1, 1]],
+            result)

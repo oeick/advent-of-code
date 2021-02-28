@@ -15,34 +15,27 @@ def parse_ingredients(lines: list[str]) -> dict[str, dict]:
     return ingredients
 
 
-def calc_teaspoons(ingredients: list[str]) -> list[dict[str, int]]:
-    teaspoons = []
-    n = [1 for _ in ingredients[:-1]]
-    while n[0] < 100 - len(n):
-        teaspoons.append(dict(zip(ingredients, n + [100 - sum(n)])))
-        i = len(n) - 1
-        while True:
-            if sum(n) < 99:
-                n[i] += 1
-                break
-            elif i > 0:
-                n[i] = 1
-                n[i - 1] += 1
-            i -= 1
-    return teaspoons
+def calc_distributions(n_elements: int, n_containers: int) -> list[list[int]]:
+    if n_containers == 1:
+        return [[n_elements]]
+    results = []
+    for n in range(1, n_elements - n_containers + 2):
+        sub_results = calc_distributions(n_elements - n, n_containers - 1)
+        results += [[n] + sr for sr in sub_results]
+    return results
 
 
 def calc_score(
-        teaspoons: dict[str, int],
+        teaspoons: list[int],
         ingredients: dict[str, dict],
         prop: str) -> int:
-    return sum([teaspoons[i] * ingredients[i][prop]
-                for i in ingredients])
+    return sum([teaspoons[n] * ingredients[i][prop]
+                for n, i in enumerate(ingredients)])
 
 
 def solve(ingredients: dict[str, dict]) -> (int, int):
     scores = []
-    for teaspoons in calc_teaspoons(list(ingredients.keys())):
+    for teaspoons in calc_distributions(100, len(ingredients)):
         prop_scores = {p: calc_score(teaspoons, ingredients, p)
                        for p in PROPERTIES[:-1]}
         total_score = prod([max(0, ps) for ps in prop_scores.values()])
