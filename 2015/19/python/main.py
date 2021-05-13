@@ -1,26 +1,33 @@
 import re
+from typing import NamedTuple
 
 REPLACEMENT_PATTERN = re.compile(r'(.*) => (.*)\n')
 
 
+class Replacement(NamedTuple):
+    old: str
+    new: str
+
+    def apply(self, molecule: str, position: int) -> str:
+        return molecule[:position] + \
+               self.new + \
+               molecule[position + len(self.old):]
+
+
 def parse_lines(lines: list) -> (list, str):
-    replacements = [REPLACEMENT_PATTERN.match(r).groups() for r in lines[:-2]]
+    replacements = [Replacement(*REPLACEMENT_PATTERN.match(r).groups())
+                    for r in lines[:-2]]
     return replacements, lines[-1]
 
 
-def find_replacement_possibilities(replacement: tuple, medicine: str) -> list:
-    possibilities = []
-    index, relative_index = 0, 0
-    while relative_index > -1:
-        relative_index = medicine[index:].find(replacement[0])
-        if relative_index > -1:
-            index += relative_index
-            possibilities.append(
-                medicine[:index] +
-                replacement[1] +
-                medicine[index + len(replacement[0]):])
-            index += len(replacement[0])
-    return possibilities
+def find_replacement_possibilities(
+        replacement: Replacement, medicine: str) -> list:
+    return [replacement.apply(medicine, p)
+            for p in find_replacement_positions(replacement, medicine)]
+
+
+def find_replacement_positions(replacement: Replacement, molecule: str) -> list:
+    return [f.span()[0] for f in re.finditer(replacement.old, molecule)]
 
 
 def find_distinct_molecules(replacements: list, medicine: str) -> set:

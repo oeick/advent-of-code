@@ -1,48 +1,65 @@
 import unittest
 
 import main
+from main import Replacement
 
 
 class ExampleTests(unittest.TestCase):
 
     def test_parse_lines(self):
-        result = main.parse_lines([
-            "H => HO\n",
-            "H => OH\n",
-            "O => HH\n",
-            "\n",
-            "HOH"
-        ])
         self.assertEqual((
             [('H', 'HO'),
              ('H', 'OH'),
              ('O', 'HH')],
             'HOH'),
-            result)
+            main.parse_lines([
+                "H => HO\n",
+                "H => OH\n",
+                "O => HH\n",
+                "\n",
+                "HOH"
+            ]))
+
+    def test_find_replacement_positions(self):
+        self.assertEqual(
+            [0, 2],
+            main.find_replacement_positions(
+                Replacement('H', 'HO'),
+                'HOHO'))
 
     def test_all_replacement_possibilities(self):
         self.assertEqual(
-            main.find_replacement_possibilities(('H', 'HO'), 'HOH'),
-            ['HOOH', 'HOHO'])
+            ['HOOH', 'HOHO'],
+            main.find_replacement_possibilities(Replacement('H', 'HO'), 'HOH'))
         self.assertEqual(
-            main.find_replacement_possibilities(('H', 'OH'), 'HOH'),
-            ['OHOH', 'HOOH'])
+            ['OHOH', 'HOOH'],
+            main.find_replacement_possibilities(Replacement('H', 'OH'), 'HOH'))
         self.assertEqual(
-            main.find_replacement_possibilities(('O', 'HH'), 'HOH'),
-            ['HHHH'])
+            ['HHHH'],
+            main.find_replacement_possibilities(Replacement('O', 'HH'), 'HOH'))
 
-    def test_find_distinct_molecules(self):
-        result = main.find_distinct_molecules([
-            ('H', 'HO'),
-            ('H', 'OH'),
-            ('O', 'HH')],
-            'HOH')
-        self.assertEqual(result, {'HOOH', 'HOHO', 'OHOH', 'HHHH'})
+    def test_find_distinct_molecules_from_examples(self):
+        self.assertEqual(
+            {'HOOH', 'HOHO', 'OHOH', 'HHHH'},
+            main.find_distinct_molecules(
+                [Replacement('H', 'OH'),
+                 Replacement('H', 'HO'),
+                 Replacement('O', 'HH')],
+                'HOH'))
+
+    def test_find_distinct_molecules_enhanced(self):
+        self.assertEqual(
+            {'cxyzc', 'ddabc', 'cabdd'},
+            main.find_distinct_molecules(
+                [Replacement('ab', 'xyz'),
+                 Replacement('c', 'dd')],
+                'cabc'))
 
     def test_solve_part_1(self):
-        result = main.solve_part_1([
-            ('H', 'HO'),
-            ('H', 'OH'),
-            ('O', 'HH')],
-            'HOH')
-        self.assertEqual(result, 4)
+        self.assertEqual(
+            4,
+            main.solve_part_1(
+                [Replacement('H', 'HO'),
+                 Replacement('H', 'OH'),
+                 Replacement('O', 'HH')],
+                'HOH'))
