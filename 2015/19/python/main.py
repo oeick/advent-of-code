@@ -1,3 +1,4 @@
+import random
 import re
 from typing import NamedTuple
 
@@ -8,10 +9,28 @@ class Replacement(NamedTuple):
     old: str
     new: str
 
-    def apply(self, molecule: str, position: int) -> str:
+    def apply(self, molecule: str) -> tuple[str, int]:
+        """ Repeated application of the replacement rule to the string.
+            Returns remaining string and number of replacements made.
+        """
+        current_molecule = molecule
+        counter = 0
+        while self.old in current_molecule:
+            counter += 1
+            current_molecule = current_molecule.replace(self.old, self.new, 1)
+        return current_molecule, counter
+
+    def force(self, molecule: str, position: int) -> str:
+        """ Forces the replacement at the specified location, even if the
+            substitution is not normally applicable there.
+            Returns resulting string.
+        """
         return molecule[:position] + \
-               self.new + \
-               molecule[position + len(self.old):]
+            self.new + \
+            molecule[position + len(self.old):]
+
+    def flipped(self):
+        return Replacement(self.new, self.old)
 
 
 def parse_lines(lines: list) -> (list, str):
@@ -22,12 +41,13 @@ def parse_lines(lines: list) -> (list, str):
 
 def find_replacement_possibilities(
         replacement: Replacement, medicine: str) -> list:
-    return [replacement.apply(medicine, p)
+    return [replacement.force(medicine, p)
             for p in find_replacement_positions(replacement, medicine)]
 
 
 def find_replacement_positions(replacement: Replacement, molecule: str) -> list:
-    return [f.span()[0] for f in re.finditer(replacement.old, molecule)]
+    return [f.span()[0] for f in re.finditer(
+        f'(?={replacement.old})', molecule)]
 
 
 def find_distinct_molecules(replacements: list, medicine: str) -> set:
@@ -42,7 +62,21 @@ def solve_part_1(replacements: list, medicine: str) -> int:
 
 
 def solve_part_2(replacements: list, medicine: str) -> int:
-    return 0
+    current_molecule = medicine
+    shuffled_replacements = list(replacements)
+    counter = 0
+    while current_molecule != 'e':
+        previous_molecule = current_molecule
+        for replacement in shuffled_replacements:
+            current_molecule, n = replacement \
+                .flipped() \
+                .apply(current_molecule)
+            counter += n
+        if current_molecule == previous_molecule:
+            random.shuffle(shuffled_replacements)
+            current_molecule = medicine
+            counter = 0
+    return counter
 
 
 def main(filename: str) -> (int, int):

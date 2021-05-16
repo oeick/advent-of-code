@@ -27,6 +27,13 @@ class ExampleTests(unittest.TestCase):
                 Replacement('H', 'HO'),
                 'HOHO'))
 
+    def test_find_replacement_positions_overlapping(self):
+        self.assertEqual(
+            [0, 1],
+            main.find_replacement_positions(
+                Replacement('HH', 'O'),
+                'HHH'))
+
     def test_all_replacement_possibilities(self):
         self.assertEqual(
             ['HOOH', 'HOHO'],
@@ -63,3 +70,25 @@ class ExampleTests(unittest.TestCase):
                  Replacement('H', 'OH'),
                  Replacement('O', 'HH')],
                 'HOH'))
+
+    def test_solve_part_2_example_1(self):
+        self.assertEqual(
+            4,
+            main.solve_part_2(
+                [Replacement('e', 'H'),
+                 Replacement('e', 'O'),
+                 Replacement('H', 'HO'),
+                 Replacement('H', 'OH'),
+                 Replacement('O', 'HH')],
+                'HOHO'))
+
+    def test_solve_part_2_example_2(self):
+        self.assertEqual(
+            6,
+            main.solve_part_2(
+                [Replacement('e', 'H'),
+                 Replacement('e', 'O'),
+                 Replacement('H', 'HO'),
+                 Replacement('H', 'OH'),
+                 Replacement('O', 'HH')],
+                'HOHOHO'))
