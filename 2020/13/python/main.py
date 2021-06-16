@@ -1,50 +1,58 @@
-from time import time
-from math import ceil
+import math
 
-eta = 1000677
-ids = '29,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,41,x,x,x,x,x,x,x,x,x,661,x,x,x,x,x,x,x,x,x,x,x,x,13,17,x,x,x,x,x,x,x,x,23,x,x,x,x,x,x,x,521,x,x,x,x,x,37,x,x,x,x,x,x,x,x,x,x,x,x,19'
-# ids = '7,13,x,x,59,x,31,19'
-# ids = '1789,37,47,1889'
 
-# --------- Part 1 --------
+def find_next_valid_bus(
+        prev_hit: int, prev_period: int, new_dist: int, new_bus: int) -> int:
+    """
+    prev_hit: when the previous busses met the condition
+    prev_period: period of the condition of the previous busses
+    new_dist: how many minutes after the 1st bus the new bus must depart
+    new_bus: id number of the new bus
+    """
+    minute = prev_hit
+    while (minute + new_dist) % new_bus != 0:
+        minute += prev_period
+    return minute
 
-known_ids = [int(d) for d in ids.split(',') if d != 'x']
-waiting_t = [ceil(eta/i) * i - eta for i in known_ids]
 
-shortest_waiting_time = min(waiting_t)
-next_bus = known_ids[waiting_t.index(shortest_waiting_time)]
+def find_next_period(
+        prev_hit: int,
+        prev_period: int,
+        new_dist: int,
+        new_bus: int) -> (int, int):
+    first_hit = find_next_valid_bus(prev_hit, prev_period, new_dist, new_bus)
+    second_hit = find_next_valid_bus(
+        first_hit + prev_period, prev_period, new_dist, new_bus)
+    return first_hit, second_hit - first_hit
 
-print(next_bus * shortest_waiting_time)
 
-# -------- Part 2 ---------
+def solve_part_2(ids: str) -> int:
+    busses = [(p, int(i)) for p, i in enumerate(ids.split(',')) if i != 'x']
+    minute_hit, period_hit = 2, 1
+    for dist, bus_id in busses:
+        minute_hit, period_hit = find_next_period(
+            minute_hit, period_hit, dist, bus_id)
+    return minute_hit
 
-start_value = 100000000000000
-# start_value = 0
 
-id_list = [(p, int(i)) for p, i in enumerate(ids.split(',')) if i != 'x']
+def solve_part_1(eta: int, ids: str) -> int:
+    known_ids = [int(d) for d in ids.split(',') if d != 'x']
+    waiting_t = [math.ceil(eta / i) * i - eta for i in known_ids]
 
-max_id_index, max_id_value = max(id_list, key=lambda i: i[1])
+    shortest_waiting_time = min(waiting_t)
+    next_bus = known_ids[waiting_t.index(shortest_waiting_time)]
 
-id_list_relative = [(i-max_id_index, v) for i, v in id_list]
-id_list_rel_sort = sorted(id_list_relative, key=lambda x: x[1], reverse=True)
+    return next_bus * shortest_waiting_time
 
-print(id_list_rel_sort)
 
-relative_t = [start_value//i[1]*i[1] for i in id_list_rel_sort]
+def main(filename: str) -> (int, int):
+    with open(filename, 'r') as fp:
+        lines = fp.read().splitlines()
+    eta, ids = int(lines[0]), lines[1]
+    return solve_part_1(eta, ids), solve_part_2(ids)
 
-check_t = time()
-while True:
-    relative_t[0] += id_list_rel_sort[0][1]
-    for n, id_and_val in enumerate(id_list_rel_sort[1:], start=1):
-        i, v = id_and_val
-        while relative_t[n] < relative_t[0] + i:
-            relative_t[n] += v
-        if relative_t[n] > relative_t[0] + i:
-            break
-    else:
-        break
-    if time() > check_t + 10:
-        print(relative_t)
-        check_t = time()
-print(relative_t)
-print(min(relative_t))
+
+if __name__ == '__main__':
+    solution_1, solution_2 = main('../input.txt')
+    print(solution_1)
+    print(solution_2)
