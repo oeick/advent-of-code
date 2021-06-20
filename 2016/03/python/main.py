@@ -6,14 +6,14 @@ def solve_part_1(side_lengths: list[tuple[int, ...]]) -> int:
     return len([t for t in side_lengths if validate(t)])
 
 
-def solve_part_2(side_lengths: list[tuple[int, ...]]) -> int:
-    n = 0
+def get_triangle(side_lengths: list[tuple[int, ...]]) -> tuple[int, ...]:
     for row in range(0, len(side_lengths), 3):
         for column in range(3):
-            sides = tuple(v[column] for v in side_lengths[row:row + 3])
-            if validate(sides):
-                n += 1
-    return n
+            yield tuple(v[column] for v in side_lengths[row:row + 3])
+
+
+def solve_part_2(side_lengths: list[tuple[int, ...]]) -> int:
+    return len([t for t in get_triangle(side_lengths) if validate(t)])
 
 
 def main(filename: str) -> (int, int):
