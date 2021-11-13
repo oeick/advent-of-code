@@ -12,6 +12,7 @@ public class Main {
                 .strip();
         Solver solver = new Solver();
         System.out.println(solver.solvePart1(doorId));
+        System.out.println(solver.solvePart2(doorId));
     }
 
 }
