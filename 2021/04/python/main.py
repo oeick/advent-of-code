@@ -23,7 +23,7 @@ def sum_unmarked(board: BINGOBOARD) -> int:
     return sum(sum(n for n in row if n >= 0) for row in board)
 
 
-def parse_boards(lines: list[str]) -> Sequence[BINGOBOARD]:
+def parse_boards(lines: list[str]) -> BINGOBOARDS:
     boards = []
     for i in range(len(lines) // (BINGOSIZE + 1)):
         boards.append([[int(n) for n in lines[i*(BINGOSIZE+1)+j+1].split()]
@@ -42,7 +42,7 @@ def find_all_winners(
     return False
 
 
-def solve(numbers: Iterable[int], boards: Sequence[BINGOBOARD]) -> (int, int):
+def solve(numbers: Iterable[int], boards: BINGOBOARDS) -> (int, int):
     scores: list[tuple[int, int]] = []
     for number in numbers:
         for i_b in range(len(boards)):
