@@ -4,7 +4,7 @@ def solve(lines: list[str]) -> (int, int):
 
 def main(filename: str) -> (int, int):
     with open(filename, 'r') as fp:
-        lines = fp.readlines()
+        lines = fp.read().splitlines()
     return solve(lines)
 
 
