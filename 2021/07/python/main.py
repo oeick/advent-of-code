@@ -5,12 +5,11 @@ def solve(pos: list[int]) -> (int, int):
 
 
 def get_cheap_fuel(positions: list[int], x: int) -> int:
-    return sum(abs(p - x) for p in positions if p != x)
+    return sum(abs(p - x) for p in positions)
 
 
 def get_expensive_fuel(positions: list[int], x: int) -> int:
-    return sum((abs(p - x) * (abs(p - x) + 1)) // 2
-               for p in positions if p != x)
+    return sum((abs(p - x) * (abs(p - x) + 1)) // 2 for p in positions)
 
 
 def main(filename: str) -> (int, int):
