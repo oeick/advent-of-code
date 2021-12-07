@@ -12,8 +12,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         List<Integer> numbers = Files
-                .readAllLines(Path.of("../input.txt"))
-                .stream()
+                .lines(Path.of("../input.txt"))
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
         System.out.println(solvePart1(numbers));
