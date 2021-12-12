@@ -1,6 +1,7 @@
 import unittest
 
 import main
+from main import Wiring
 
 EXAMPLE = [
     'be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb |'
@@ -27,6 +28,14 @@ EXAMPLE = [
 
 class ExampleTests(unittest.TestCase):
 
+    example: list[Wiring]
+
+    @classmethod
+    def setUpClass(cls):
+        cls.example = [main.parse(line) for line in EXAMPLE]
+
     def test_example(self):
-        self.assertEqual(
-            26, main.solve_part_1([main.parse(line) for line in EXAMPLE]))
+        self.assertEqual(26, main.solve_part_1(self.example))
+
+    def test_solve2(self):
+        self.assertEqual(61229, main.solve_part_2(self.example))
