@@ -3,7 +3,7 @@ use std::error::Error;
 struct Dimensions { x: u32, y: u32, z: u32 }
 
 fn main() -> Result<(), Box<dyn Error>>{
-    let input = std::fs::read_to_string("input.txt")?;
+    let input = std::fs::read_to_string(r"..\input.txt")?;
 
     let solution1: u32 = input
         .lines()
