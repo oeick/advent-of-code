@@ -9,7 +9,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        var input = Files.readAllLines(Path.of("..\\input.txt"))
+        var input = Files.readAllLines(Path.of("..", "input.txt"))
                 .stream()
                 .map(l -> Arrays.stream(l.split("x"))
                         .map(Integer::parseInt)

@@ -14,7 +14,7 @@ import static aoc2016d01.Direction.NORTH;
 public class Main {
     public static void main(String[] args) throws IOException {
         final var input = Arrays.stream(
-                        Files.readString(Path.of("..", "\\input.txt"))
+                        Files.readString(Path.of("..", "input.txt"))
                                 .split(", "))
                 .map(s -> new Instruction(
                         Turn.valueOf(s.substring(0, 1)),
