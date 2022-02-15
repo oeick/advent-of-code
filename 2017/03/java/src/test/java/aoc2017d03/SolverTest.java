@@ -1,8 +1,10 @@
 package aoc2017d03;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SolverTest {
 
@@ -42,13 +44,15 @@ class SolverTest {
         assertEquals(31, Solver.solvePart1(1024));
     }
 
-    @Test
-    void solvePart2() {
-        assertEquals(2, Solver.solvePart2(1));
-        assertEquals(4, Solver.solvePart2(2));
-        assertEquals(4, Solver.solvePart2(3));
-        assertEquals(5, Solver.solvePart2(4));
-        assertEquals(10, Solver.solvePart2(5));
-        assertEquals(806, Solver.solvePart2(800));
+    @ParameterizedTest
+    @CsvSource({
+            "  2,   1",
+            "  4,   2",
+            "  4,   3",
+            "  5,   4",
+            " 10,   5",
+            "806, 800"})
+    void solvePart2(int expected, int square) {
+        assertEquals(expected, Solver.solvePart2(square));
     }
 }
