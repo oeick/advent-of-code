@@ -1,0 +1,36 @@
+Allocation structure:
+    
+    17  16  15  14  13
+    18   5   4   3  12
+    19   6   1   2  11
+    20   7   8   9  10
+    21  22  23---> ...
+
+
+Split it up into rectangles:
+
+
+Rectangle 0 (inner most):
+
+    1
+
+
+Rectangle 1:
+
+    5   4   3
+    6       2
+    7   8   9 <- stop number
+
+
+Rectangle 2:
+
+    17  16  15  14  13
+    18              12
+    19              11
+    20              10
+    21  22  23  24  25 <- stop number
+
+
+The "stop number" follows squared odd numbers.
+
+    s = (2r+1)^2, s: stop number, r: rectangle
