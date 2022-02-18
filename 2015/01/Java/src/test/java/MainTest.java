@@ -25,5 +25,7 @@ class MainTest {
     void solvePart2() {
         assertEquals(1, Main.solvePart2(")"));
         assertEquals(5, Main.solvePart2("()())"));
+        assertEquals(5, Main.solvePart2("()()))"));
+        assertEquals(5, Main.solvePart2("()())(("));
     }
 }
