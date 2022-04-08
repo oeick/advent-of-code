@@ -2,7 +2,7 @@ from timeit import default_timer as timer
 import main
 
 
-def measure(filename: str) -> (int, int):
+def measure(filename: str) -> float:
     with open(filename, 'r') as fp:
         banks = [int(n) for n in fp.read().split()]
     t_0 = timer()
