@@ -2,7 +2,7 @@ from itertools import accumulate, cycle
 
 
 def solve_part_1(changes: list[int]) -> int:
-    return list(accumulate(changes))[-1]
+    return sum(changes)
 
 
 def solve_part_2(changes: list[int]) -> int:
