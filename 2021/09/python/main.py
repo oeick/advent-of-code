@@ -59,7 +59,7 @@ class Solver:
 
 def main(filename: str) -> (int, int):
     with open(filename, 'r') as fp:
-        lines = [[int(n) for n in list(line)]
+        lines = [[int(n) for n in line]
                  for line in fp.read().splitlines()]
     solver = Solver(lines)
     return (

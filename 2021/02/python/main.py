@@ -17,7 +17,7 @@ def solve_part_2(commands: list[tuple[str, int]]) -> int:
 
 def main(filename: str) -> (int, int):
     with open(filename, 'r') as fp:
-        tokens = [line.split() for line in fp.read().splitlines()]
+        tokens = [line.split() for line in fp]
     commands = [(d, int(v)) for d, v in tokens]
     return solve_part_1(commands), solve_part_2(commands)
 

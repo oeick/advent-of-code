@@ -15,7 +15,7 @@ def solve_part_2(changes: list[int]) -> int:
 
 def main(filename: str) -> (int, int):
     with open(filename, 'r') as fp:
-        changes = [int(v) for v in fp.read().splitlines()]
+        changes = [int(v) for v in fp]
     return solve_part_1(changes), solve_part_2(changes)
 
 

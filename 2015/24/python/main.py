@@ -16,7 +16,7 @@ def solve(values: list[int], num_of_groups: int) -> int:
 
 def main(filename: str) -> (int, int):
     with open(filename, 'r') as fp:
-        values = [int(v) for v in fp.read().splitlines()]
+        values = [int(v) for v in fp]
     return (solve(values, 3),
             solve(values, 4))
 

@@ -22,7 +22,7 @@ def solve_part_2(instructions: Iterable[int]) -> int:
 
 def main(filename: str) -> (int, int):
     with open(filename, 'r') as fp:
-        instructions = [int(i) for i in fp.read().splitlines()]
+        instructions = [int(i) for i in fp]
     return solve_part_1(instructions), solve_part_2(instructions)
 
 

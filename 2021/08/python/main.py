@@ -108,7 +108,7 @@ def parse(line: str) -> Wiring:
 
 def main(filename: str) -> (int, int):
     with open(filename, 'r') as fp:
-        signals = [parse(line) for line in fp.read().splitlines()]
+        signals = [parse(line) for line in fp]
     return solve_part_1(signals), solve_part_2(signals)
 
 

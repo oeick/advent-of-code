@@ -81,7 +81,7 @@ def parse_text(text: str) -> Line:
 
 def main(filename: str) -> (int, int):
     with open(filename, 'r') as fp:
-        lines = [parse_text(l) for l in fp.read().splitlines()]
+        lines = [parse_text(line) for line in fp]
     return solve(lines)
 
 
