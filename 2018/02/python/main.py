@@ -10,7 +10,7 @@ def count_double_and_triple_chars(strings: list[str]) -> (int, int):
                   (0, 0))
 
 
-def solve_part_2(strings: [str]) -> str:
+def solve_part_2(strings: list[str]) -> str:
     for string_1, string_2 in product(strings, strings):
         mutual = [c1 for c1, c2 in zip(string_1, string_2) if c1 == c2]
         if len(mutual) == len(string_1) - 1:
