@@ -1,0 +1,55 @@
+memory: holds the int values
+
+address: a specific position in memory, starting with 0
+
+opcode: 1, 2, 99; indicates what to do
+
+parameters: the values used immediately after an opcode, if any
+
+instruction: consists of opcode and parameters
+
+parameter modes: each parameter of an instruction is handled based on its parameter mode
+Parameter modes are stored in the same value as the instruction's opcode. The opcode is a two-digit number based only on the ones and tens digit of the value, that is, the opcode is the rightmost two digits of the first value in an instruction. Parameter modes are single digits, one per parameter, read right-to-left from the opcode: the first parameter's mode is in the hundreds digit, the second parameter's mode is in the thousands digit, the third parameter's mode is in the ten-thousands digit, and so on. Any missing modes are 0.
+Parameters that an instruction writes to will never be in immediate mode.
+
+position mode: 0; causes the parameter to be interpreted as a position
+
+immediate mode: 1; parameter is interpreted as a value
+
+relative mode: 2; parameter is interpreted as a position count from a value called the relative base. Like position mode, parameters in relative mode can be read from or written to. The address a relative mode parameter refers to is itself plus the current relative base.
+
+relative base: starts at 0; 
+
+
+          -- instruction               -- instruction
+      ___/_                     ______/_
+     /     \                   /        \
+     1,2,3,4                   1101,2,3,4
+     ^ \___/                   \/\/ \___/
+     |   \                      \ \   \ 
+      \   -- parameters          \ \   -- parameters
+       ----- opcode               \ ----- opcode
+                                   ------ parameter modes
+
+
+
+
+  - Opcode 1 adds together first two parameters and stores the result in a position given by the third parameter
+  
+  - Opcode 2 works exactly like opcode 1, except it multiplies the two inputs instead of adding them
+  
+  - Opcode 3 takes a single integer as input and saves it to the position given by its only parameter. For example, the instruction 3,50 would take an input value and store it at address 50.
+  
+  - Opcode 4 outputs the value of its only parameter. For example, the instruction 4,50 would output the value at address 50.
+
+  - Opcode 5 is jump-if-true: if the first parameter is non-zero, it sets the instruction pointer to the value from the second parameter. Otherwise, it does nothing.
+  
+  - Opcode 6 is jump-if-false: if the first parameter is zero, it sets the instruction pointer to the value from the second parameter. Otherwise, it does nothing.
+  
+  - Opcode 7 is less than: if the first parameter is less than the second parameter, it stores 1 in the position given by the third parameter. Otherwise, it stores 0.
+  
+  - Opcode 8 is equals: if the first parameter is equal to the second parameter, it stores 1 in the position given by the third parameter. Otherwise, it stores 0.
+
+  - Opcode 9 adjusts the relative base by the value of its only parameter. The relative base increases (or decreases, if the value is negative) by the value of the parameter
+  
+  - Opcode 99 means that the program is finished and should immediately halt
