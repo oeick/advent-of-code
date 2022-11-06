@@ -1,10 +1,10 @@
-def main(filename: str) -> (int, int):
+def main(filename: str) -> tuple[int, int]:
     with open(filename, 'r') as fp:
         lines = fp.read().splitlines()
     return solve(lines)
 
 
-def solve(lines: list[str]) -> (int, int):
+def solve(lines: list[str]) -> tuple[int, int]:
     return len(lines), len(lines[0])
 
 
