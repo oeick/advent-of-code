@@ -100,3 +100,10 @@ class ExampleTests(unittest.TestCase):
                              Span(0, 2),
                              Span(4, 6),
                              Span(5, 9)}))
+
+    def test_example_part_2(self):
+        sensors = main.parse_sensors(EXAMPLE)
+        self.assertEqual(
+            56000011,
+            main.solve_part_2(sensors, 20)
+        )

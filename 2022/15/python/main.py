@@ -2,8 +2,7 @@ import re
 from itertools import combinations
 from typing import NamedTuple, Self
 
-PATTERN = re.compile(
-    r'Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)')
+PATTERN = re.compile(r'.+ x=(-?\d+), y=(-?\d+): .+ x=(-?\d+), y=(-?\d+)')
 
 
 class Coord(NamedTuple):
@@ -41,7 +40,9 @@ def main(filename: str) -> tuple[int, int]:
     with open(filename, 'r') as fp:
         lines = fp.read().splitlines()
     sensors = parse_sensors(lines)
-    return solve_part_1(sensors, 2_000_000), 0
+    return (
+        solve_part_1(sensors, 2_000_000),
+        solve_part_2(sensors, 4_000_000))
 
 
 def parse_sensors(lines: list[str]) -> list[Sensor]:
@@ -60,6 +61,15 @@ def solve_part_1(sensors: list[Sensor], y: int) -> int:
         spans=exclusion_spans,
         y=y)
     return sum(len(s) for s in exclusion_spans) - len(beacons_inside_spans)
+
+
+def solve_part_2(sensors: list[Sensor], limit: int) -> int:
+    for y in range(limit + 1):
+        exclusions = get_merged_exclusion_spans(sensors, y)
+        if len(exclusions) == 2:
+            span = exclusions.pop()
+            x = span.right + 1 if span.left <= 0 else span.left - 1
+            return x * 4_000_000 + y
 
 
 def calc_exclusion_spans(sensors: list[Sensor], y: int) -> set[Span]:
