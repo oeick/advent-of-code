@@ -54,7 +54,7 @@ mod tests {
         for (example, floor) in examples.iter() {
             assert_eq!(
                 floor,
-                &solve_part_1(&String::from(example.to_string())));
+                &solve_part_1(&example.to_string()));
         }
     }
 
